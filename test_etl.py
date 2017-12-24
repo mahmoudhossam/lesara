@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 import pandas as pd
 from etl import ETL
 
@@ -11,7 +12,8 @@ class ETLTests(unittest.TestCase):
         data = {'customer_id': [1, 1], 'order_id': [1, 2],
                 'order_item_id': [5, 6], 'num_items': [2, 3],
                 'revenue': [90, 50],
-                'created_at_date': ['2017-12-24', '2017-10-12']}
+                'created_at_date': [datetime(2017, 10, 5),
+                                    datetime(2017, 10, 12)]}
         self.test_df = pd.DataFrame.from_dict(data)
 
     def test_max_items(self):
@@ -53,7 +55,15 @@ class ETLTests(unittest.TestCase):
             {0: {'customer_id': 1, 'order_id': 2}}, orient='index')
         expected = expected.set_index('customer_id')
         actual = self.etl.total_orders(self.test_df)
-        print(actual, expected)
+        self.assertTrue(actual.equals(expected))
+
+    def test_days_since_last_order(self):
+        expected = pd.DataFrame.from_dict(
+            {0: {'customer_id': 1,
+                 'created_at_date': pd.to_timedelta('5 days')}},
+            orient='index')
+        expected = expected.set_index('customer_id')
+        actual = self.etl.days_since_last_order(self.test_df)
         self.assertTrue(actual.equals(expected))
 
 

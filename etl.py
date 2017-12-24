@@ -1,3 +1,4 @@
+from datetime import datetime
 import pandas as pd
 
 
@@ -24,3 +25,8 @@ class ETL:
     def total_orders(self, df):
         return df[['customer_id', 'order_id']].groupby(['customer_id']).\
             order_id.nunique().to_frame()
+
+    def days_since_last_order(self, df):
+        return df[['customer_id', 'created_at_date']].groupby('customer_id').\
+            max()['created_at_date'].\
+            subtract(pd.Timestamp(datetime(2017, 10, 17))).abs().to_frame()
