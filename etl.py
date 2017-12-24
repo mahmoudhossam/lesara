@@ -20,3 +20,7 @@ class ETL:
 
     def total_revenue(self, df):
         return df[['customer_id', 'revenue']].groupby(['customer_id']).sum()
+
+    def total_orders(self, df):
+        return df[['customer_id', 'order_id']].groupby(['customer_id']).\
+            order_id.nunique().to_frame()

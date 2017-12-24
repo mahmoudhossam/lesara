@@ -36,12 +36,26 @@ class ETLTests(unittest.TestCase):
         self.assertTrue(actual.equals(expected))
 
     def test_total_revenue(self):
-
+        """ Tests that total_revenue calculates
+            the correct amount for a given customer.
+        """
         expected = pd.DataFrame.from_dict(
             {0: {'customer_id': 1, 'revenue': 140}}, orient='index')
         expected = expected.set_index('customer_id')
         actual = self.etl.total_revenue(self.test_df)
         self.assertTrue(actual.equals(expected))
+
+    def test_total_orders(self):
+        """ Tests that total_orders returns the correct number of orders
+            for a given customer.
+        """
+        expected = pd.DataFrame.from_dict(
+            {0: {'customer_id': 1, 'order_id': 2}}, orient='index')
+        expected = expected.set_index('customer_id')
+        actual = self.etl.total_orders(self.test_df)
+        print(actual, expected)
+        self.assertTrue(actual.equals(expected))
+
 
 if __name__ == '__main__':
     unittest.main()
