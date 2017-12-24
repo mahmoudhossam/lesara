@@ -35,6 +35,13 @@ class ETLTests(unittest.TestCase):
         actual = self.etl.max_revenue(self.test_df)
         self.assertTrue(actual.equals(expected))
 
+    def test_total_revenue(self):
+
+        expected = pd.DataFrame.from_dict(
+            {0: {'customer_id': 1, 'revenue': 140}}, orient='index')
+        expected = expected.set_index('customer_id')
+        actual = self.etl.total_revenue(self.test_df)
+        self.assertTrue(actual.equals(expected))
 
 if __name__ == '__main__':
     unittest.main()

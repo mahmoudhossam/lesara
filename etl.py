@@ -15,5 +15,8 @@ class ETL:
     def max_revenue(self, df):
         max_revenue = df[['customer_id', 'order_id', 'revenue']].\
             groupby(['customer_id'])['revenue'].idxmax()
-        df = df[['customer_id', 'order_id', 'revenue']].ix[max_revenue]
+        df = df[['customer_id', 'order_id', 'revenue']].iloc[max_revenue]
         return df
+
+    def total_revenue(self, df):
+        return df[['customer_id', 'revenue']].groupby(['customer_id']).sum()
