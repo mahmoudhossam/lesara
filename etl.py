@@ -8,10 +8,9 @@ class ETL:
         self.df = pd.read_csv('./orders.csv', parse_dates=['created_at_date'])
 
     def max_items(self, df):
-        return df.groupby(['customer_id', 'order_id'])['customer_id',
-                                                       'order_id',
-                                                       'num_items'].sum().\
-            groupby(['customer_id']).max()
+        return df[['customer_id', 'order_id', 'num_items']]\
+            .groupby(['customer_id', 'order_id']).sum().\
+            reset_index().groupby(['customer_id']).max()
 
     def max_revenue(self, df):
         df = df[['customer_id', 'order_id', 'revenue']]\
