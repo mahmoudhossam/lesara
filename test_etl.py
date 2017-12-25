@@ -21,7 +21,7 @@ class ETLTests(unittest.TestCase):
             even if they have multiple orders.
         """
         expected = pd.DataFrame.from_dict(
-            {0: {'customer_id': 1, 'order_id': 2, 'num_items': 3}},
+            {0: {'customer_id': 1, 'max items': 3}},
             orient='index')
         expected = expected.set_index('customer_id')
         actual = self.etl.max_items(self.test_df)
@@ -32,7 +32,7 @@ class ETLTests(unittest.TestCase):
             with the highest revenue.
         """
         expected = pd.DataFrame.from_dict(
-            {0: {'customer_id': 1, 'revenue': 90}},
+            {0: {'customer_id': 1, 'max revenue': 90}},
             orient='index')
         actual = self.etl.max_revenue(self.test_df)
         expected = expected.set_index('customer_id')
@@ -43,7 +43,8 @@ class ETLTests(unittest.TestCase):
             the correct amount for a given customer.
         """
         expected = pd.DataFrame.from_dict(
-            {0: {'customer_id': 1, 'revenue': 140}}, orient='index')
+            {0: {'customer_id': 1, 'total revenue': 140}},
+            orient='index')
         expected = expected.set_index('customer_id')
         actual = self.etl.total_revenue(self.test_df)
         self.assertTrue(actual.equals(expected))
@@ -53,15 +54,19 @@ class ETLTests(unittest.TestCase):
             for a given customer.
         """
         expected = pd.DataFrame.from_dict(
-            {0: {'customer_id': 1, 'order_id': 2}}, orient='index')
+            {0: {'customer_id': 1, 'total orders': 2}}, orient='index')
         expected = expected.set_index('customer_id')
         actual = self.etl.total_orders(self.test_df)
         self.assertTrue(actual.equals(expected))
 
     def test_days_since_last_order(self):
+        """ Tests that days_since_last_order returns the correct
+            duration for a given customer.
+        """
         expected = pd.DataFrame.from_dict(
             {0: {'customer_id': 1,
-                 'created_at_date': pd.to_timedelta('5 days')}},
+                 'days since last order':
+                 pd.to_timedelta('5 days')}},
             orient='index')
         expected = expected.set_index('customer_id')
         actual = self.etl.days_since_last_order(self.test_df)
