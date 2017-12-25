@@ -65,8 +65,7 @@ class ETLTests(unittest.TestCase):
         """
         expected = pd.DataFrame.from_dict(
             {0: {'customer_id': 1,
-                 'days since last order':
-                 pd.to_timedelta('5 days')}},
+                 'days since last order': 5}},
             orient='index')
         expected = expected.set_index('customer_id')
         actual = self.etl.days_since_last_order(self.test_df)

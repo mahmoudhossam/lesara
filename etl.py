@@ -39,9 +39,11 @@ class ETL:
 
     def days_since_last_order(self, df):
         """ Calculates the number of days since a customer's last order. """
-        return df[['customer_id', 'created_at_date']].groupby('customer_id').\
-            max()['created_at_date'].\
-            subtract(pd.Timestamp(datetime(2017, 10, 17))).abs().to_frame().\
+        days = (df[['customer_id', 'created_at_date']].groupby('customer_id').
+                max()['created_at_date'].subtract(pd.Timestamp(
+                    datetime(2017, 10, 17))).abs() /
+                numpy.timedelta64(1, 'D')).astype(int)
+        return days.to_frame().\
             rename(columns={'created_at_date': 'days since last order'})
 
     def calculate_clv(self):
