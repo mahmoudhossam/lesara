@@ -32,9 +32,10 @@ class ETLTests(unittest.TestCase):
             with the highest revenue.
         """
         expected = pd.DataFrame.from_dict(
-            {0: {'customer_id': 1, 'order_id': 1, 'revenue': 90}},
+            {0: {'customer_id': 1, 'revenue': 90}},
             orient='index')
         actual = self.etl.max_revenue(self.test_df)
+        expected = expected.set_index('customer_id')
         self.assertTrue(actual.equals(expected))
 
     def test_total_revenue(self):
