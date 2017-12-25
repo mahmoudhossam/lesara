@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 import pandas as pd
 import numpy
@@ -7,7 +8,9 @@ import dill
 class ETL:
 
     def __init__(self):
-        self.df = pd.read_csv('./orders.csv', parse_dates=['created_at_date'])
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+        self.df = pd.read_csv(current_directory + '/orders.csv',
+                              parse_dates=['created_at_date'])
 
     def max_items(self, df):
         """ Calculates the maximum number of items in one order. """
